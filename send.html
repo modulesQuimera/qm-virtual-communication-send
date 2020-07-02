@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('send',{
         category: 'virtual communication',
-        color: '#FFA500',
+        color: '#FFFF00',
         defaults: {
             name:{ value: "" },
             message_send:{ value:"" },
@@ -11,9 +11,9 @@
         },
         inputs:1,
         outputs:1,
-        icon: "font-awesome/fa-bars",
-        label: function() { return this.name || "send" },
-        paletteLabel: "send",
+        icon: "./icons/Send.svg",
+        label: function() { return this.name || "Send" },
+        paletteLabel: "Send",
         oneditprepare: function() {
             var ports = []
             var self = this
