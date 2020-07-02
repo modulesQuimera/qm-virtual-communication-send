@@ -1,0 +1,73 @@
+<script type="text/javascript">
+    RED.nodes.registerType('send',{
+        category: 'virtual communication',
+        color: '#FFA500',
+        defaults: {
+            name:{ value: "" },
+            message_send:{ value:"" },
+            mapeamento:{ value:"", type: "mapeamento" },
+            port_send:{ value:"" },
+            // websocket:{ type: "jig-web-socket", required: true },
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-bars",
+        label: function() { return this.name || "send" },
+        paletteLabel: "send",
+        oneditprepare: function() {
+            var ports = []
+            var self = this
+
+            $.getJSON('getMapeamento',function(data) {
+                ports = data  
+                var portType = "custom";
+                for (var i in ports) {
+                    if (self.port_send == ports[i].value) {
+                        portType = self.port_send;
+                    }
+                }
+                $("#node-config-input-port").typedInput({
+                    default: self.port_send,
+                    types:ports
+                });
+            })
+            $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
+        },
+        oneditsave: function() {
+            var mytype = $("#node-config-input-port").typedInput('type');
+
+            $("#node-config-input-port").typedInput('value', mytype);
+            this.port_send = $("#node-config-input-port").typedInput('value');
+        }
+    });
+
+</script>
+
+<script type="text/html" data-template-name="send">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <br>
+    <div class="form-row">
+        <label for="node-input-message_send"><i class="fa fa-envelope"></i> Message</label>
+        <input type="text" id="node-input-message_send" placeholder="message send" maxlength = "40">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port_send"><i class="fa fa-microchip"></i> Port send</label>
+        <input type="text" id="node-config-input-port" style="width:64%">
+        <div style="width:20px; margin-left:420px; margin-top:-34px" selected>
+            <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
+        </div>
+    </div>
+    <!-- <div class="form-row node-input-websocket" style="margin-top: 20px">
+        <label for="node-input-websocket"><i class="fa fa-random"></i> Websocket config</label>
+        <input type="text" id="node-input-websocket" style="width: 230px">
+    </div> -->
+</script>
+
+<script type="text/html" data-help-name="send">
+    <p>Working on it...</p>
+</script>
+
+

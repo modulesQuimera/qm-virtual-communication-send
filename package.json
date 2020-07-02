@@ -1,0 +1,25 @@
+{
+  "name": "qm-hub-virtual-communication-send",
+  "version": "1.0.0",
+  "description": "virtual-communication send module - Node-Red",
+  "main": "send.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modulesQuimera/qm-hub-virtual-communication-send.git"
+  },
+  "keywords": ["quimera", "hub", "JIG"],
+  "author": "HUB-LSE",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/modulesQuimera/qm-hub-virtual-communication-send/issues"
+  },
+  "homepage": "https://github.com/modulesQuimera/qm-hub-virtual-communication-send#readme",
+  "node-red": {
+    "nodes": {
+     "send": "send.js"
+    }
+   }
+}
