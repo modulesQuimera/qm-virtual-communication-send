@@ -8,28 +8,25 @@ module.exports = function(RED) {
         this.mapeamento = config.mapeamento
         this.message_send = config.message_send
         this.port_send = config.port_send
-        // this.websocket = config.websocket
-        // this.websocketConfig = RED.nodes.getNode(this.websocket);
         mapeamentoNode = RED.nodes.getNode(this.mapeamento);
         var node = this
         
         node.on('input', function(msg, send, done) {
             var globalContext = node.context().global;
-            var exportMode = globalContext.get("exportMode");
             var currentMode = globalContext.get("currentMode");
             var command = {
                 type: "communication_modular_V1.0",
                 slot: 1,
                 method: "send",
                 port_send: node.port_send,
-                message_send: node.message_send
+                message_send: node.message_send,
             }
             var file = globalContext.get("exportFile")
             var slot = globalContext.get("slot");
             if(currentMode == "test"){file.slots[slot].jig_test.push(command)}
             else{file.slots[slot].jig_error.push(command)}
             globalContext.set("exportFile", file);
-            // node.status({fill:"green", shape:"dot", text:"done"}); // seta o status pra waiting
+            console.log(command)
             send(msg)
         });
     }

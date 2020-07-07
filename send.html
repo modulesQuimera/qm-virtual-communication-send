@@ -7,7 +7,8 @@
             message_send:{ value:"" },
             mapeamento:{ value:"", type: "mapeamento" },
             port_send:{ value:"" },
-            // websocket:{ type: "jig-web-socket", required: true },
+            // maxValue: {value: null},
+            // minValue: {value: null}
         },
         inputs:1,
         outputs:1,
@@ -50,22 +51,74 @@
 
 </script>
 
+
+<style>
+    label{
+        width: 50% !important;
+        margin-bottom: 2px !important;
+    }
+
+    .columm{
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    hr {
+    width: 40% !important;
+    float: left !important;
+    }
+
+    .hr-div-send{
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-top: 350px !important;
+    }
+
+    .optional{
+        height: max-content !important;
+        margin-top: 10px !important;
+    }
+
+    .descript{
+        text-align: center;
+    }
+
+</style>
+
 <script type="text/html" data-template-name="send">
-    <div class="form-row">
+
+    <div class="form-row columm">
+        <strong class="descript">
+         Send module is used to send the value.
+     </strong>
+     </div>
+
+    <!-- <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
-    <br>
-    <div class="form-row">
+    <br> -->
+    <div class="form-row columm">
         <label for="node-input-message_send"><i class="fa fa-envelope"></i> Message</label>
         <input type="text" id="node-input-message_send" placeholder="message send" maxlength = "40">
     </div>
-    <div class="form-row">
+    <div class="form-row columm">
         <label for="node-input-port_send"><i class="fa fa-microchip"></i> Port send</label>
-        <input type="text" id="node-config-input-port" style="width:64%">
-        <div style="width:20px; margin-left:420px; margin-top:-34px" selected>
+        <input type="text" id="node-config-input-port" style="width:80%">
+        <div style="width:20px; margin-left:365px; margin-top:-34px" selected>
             <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
         </div>
+    </div>
+
+    <div class="hr-div-send">
+        <hr>
+        <span class="optional">Optional</span>
+        <hr>
+    </div>
+
+    <div class="form-row columm">
+        <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Component Nickname</label>
+        <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <!-- <div class="form-row node-input-websocket" style="margin-top: 20px">
         <label for="node-input-websocket"><i class="fa fa-random"></i> Websocket config</label>
