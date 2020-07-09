@@ -7,12 +7,10 @@
             message_send:{ value:"" },
             mapeamento:{ value:"", type: "mapeamento" },
             port_send:{ value:"" },
-            // maxValue: {value: null},
-            // minValue: {value: null}
         },
         inputs:1,
         outputs:1,
-        icon: "./icons/Send.svg",
+        icon: "Send.svg",
         label: function() { return this.name || "Send" },
         paletteLabel: "Send",
         oneditprepare: function() {
@@ -92,12 +90,6 @@
          Send module is used to send the value.
      </strong>
      </div>
-
-    <!-- <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-    <br> -->
     <div class="form-row columm">
         <label for="node-input-message_send"><i class="fa fa-envelope"></i> Message</label>
         <input type="text" id="node-input-message_send" placeholder="message send" maxlength = "40">
@@ -109,21 +101,15 @@
             <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
         </div>
     </div>
-
     <div class="hr-div-send">
         <hr>
         <span class="optional">Optional</span>
         <hr>
     </div>
-
     <div class="form-row columm">
         <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Component Nickname</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
-    <!-- <div class="form-row node-input-websocket" style="margin-top: 20px">
-        <label for="node-input-websocket"><i class="fa fa-random"></i> Websocket config</label>
-        <input type="text" id="node-input-websocket" style="width: 230px">
-    </div> -->
 </script>
 
 <script type="text/html" data-help-name="send">
