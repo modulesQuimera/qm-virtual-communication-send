@@ -1,5 +1,5 @@
 {
-  "name": "qm-hub-virtual-communication-send",
+  "name": "qm-virtual-communication-send",
   "version": "1.0.4",
   "description": "virtual-communication send module - Node-Red",
   "main": "send.js",
