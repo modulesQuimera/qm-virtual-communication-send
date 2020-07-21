@@ -12,19 +12,40 @@ module.exports = function(RED) {
         var node = this
         
         node.on('input', function(msg, send, done) {
+            mapeamentoNode = RED.nodes.getNode(node.mapeamento);
+
             var globalContext = node.context().global;
+            console.log(mapeamentoNode)
             var currentMode = globalContext.get("currentMode");
             var command = {
-                type: "communication_modular_V1.0",
-                slot: 1,
+                type: "communication_modular_V1_0",
+                slot: parseInt(mapeamentoNode.slot),
                 method: "send",
                 port_send: node.port_send,
                 message_send: node.message_send,
+                get_output: {},
+                compare: {}
             }
             var file = globalContext.get("exportFile")
             var slot = globalContext.get("slot");
-            if(currentMode == "test"){file.slots[slot].jig_test.push(command)}
-            else{file.slots[slot].jig_error.push(command)}
+            if(!(slot === "begin" || slot === "end")){
+                if(currentMode == "test"){
+                    file.slots[slot].jig_test.push(command);
+                }
+                else{
+                    file.slots[slot].jig_error.push(command);
+                }
+            }
+            else{
+                if(slot === "begin"){
+                    file.slots[0].jig_test.push(command);
+                    // file.begin.push(command);
+                }
+                else{
+                    file.slots[3].jig_test.push(command);
+                    // file.end.push(command);
+                }
+            }
             globalContext.set("exportFile", file);
             console.log(command)
             send(msg)
@@ -32,34 +53,34 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("send", sendNode);
 
-    RED.httpAdmin.get("/getMapeamento",function(req,res) {
-        if(mapeamentoNode){
-            res.json([
-                {value:mapeamentoNode.valuePort1, label: "CTS_1 | RTS_1 | RXD_1 | TXD_1 - " + mapeamentoNode.labelPort1, hasValue:false},
-                {value:mapeamentoNode.valuePort2, label: "RXD_2 | TXD_2 - " + mapeamentoNode.labelPort2, hasValue:false},
-                {value:mapeamentoNode.valuePort3, label: "RX_RS485 | TX_RS485 - " + mapeamentoNode.labelPort3, hasValue:false},
-                {value:mapeamentoNode.valuePort4, label: "X_COM | TX_COM - " + mapeamentoNode.labelPort4, hasValue:false},
-                {value:mapeamentoNode.valuePort5, label: "RX1 | TX1 - " + mapeamentoNode.labelPort5, hasValue:false},
-                {value:mapeamentoNode.valuePort6, label: "RX2 | TX2 - " + mapeamentoNode.labelPort6, hasValue:false},
-                {value:mapeamentoNode.valuePort7, label: "RX3 | TX3 - " + mapeamentoNode.labelPort7, hasValue:false},
-                {value:mapeamentoNode.valuePort8, label: "RX4 | TX4 - " + mapeamentoNode.labelPort8, hasValue:false},
-                {value:mapeamentoNode.valuePort9, label: "SDA | STL - " + mapeamentoNode.labelPort9, hasValue:false},
-                {value:mapeamentoNode.valuePort10, label: "CS | SCK | MISO | MOSI - " + mapeamentoNode.labelPort10, hasValue:false},
-            ])
-        }
-        else{
-            res.json([
-                {value:"RS232_1", label: "CTS_1 | RTS_1 | RXD_1 | TXD_1 - ", hasValue:false},
-                {value:"RS232_2", label: "RXD_2 | TXD_2 - ", hasValue:false},
-                {value:"RS485", label: "RX_RS485 | TX_RS485 - ", hasValue:false},
-                {value:"UART_COM", label: "X_COM | TX_COM - ", hasValue:false},
-                {value:"UART_1", label:"RX1 | TX1 - ", hasValue:false},
-                {value:"UART_2", label: "RX2 | TX2 - ", hasValue:false},
-                {value:"UART_3", label: "RX3 | TX3 - ", hasValue:false},
-                {value:"UART_4", label: "RX4 | TX4 - ", hasValue:false},
-                {value:"I2C", label: "SDA | STL - ", hasValue:false},
-                {value:"SPI", label: "CS | SCK | MISO | MOSI - ", hasValue:false},
-            ])
-        }
-    });
+    // RED.httpAdmin.get("/getMapeamento",function(req,res) {
+    //     if(mapeamentoNode){
+    //         res.json([
+    //             {value:mapeamentoNode.valuePort1, label:"RS232_DB9 -" + mapeamentoNode.labelPort1, hasValue:false},
+    //             {value:mapeamentoNode.valuePort2, label:"RS232_RJ11 -" + mapeamentoNode.labelPort2, hasValue:false},
+    //             {value:mapeamentoNode.valuePort3, label:"RS485 -" + mapeamentoNode.labelPort3, hasValue:false},
+    //             {value:mapeamentoNode.valuePort4, label:"UART_COM -" + mapeamentoNode.labelPort4, hasValue:false},
+    //             {value:mapeamentoNode.valuePort5, label:"UART_1 -" + mapeamentoNode.labelPort5, hasValue:false},
+    //             {value:mapeamentoNode.valuePort6, label:"UART_2 -" + mapeamentoNode.labelPort6, hasValue:false},
+    //             {value:mapeamentoNode.valuePort7, label:"UART_3 -" + mapeamentoNode.labelPort7, hasValue:false},
+    //             {value:mapeamentoNode.valuePort8, label:"UART_4 -" + mapeamentoNode.labelPort8, hasValue:false},
+    //             {value:mapeamentoNode.valuePort9, label:"I2C -" + mapeamentoNode.labelPort9, hasValue:false},
+    //             {value:mapeamentoNode.valuePort10, label:"SPI -" + mapeamentoNode.labelPort10, hasValue:false},
+    //         ])
+    //     }
+    //     else{
+    //         res.json([
+    //             {value:"RS232_1", label:"RS232_DB9 -", hasValue:false},
+    //             {value:"RS232_2", label:"RS232_RJ11 -", hasValue:false},
+    //             {value:"RS485", label:"RS485 -", hasValue:false},
+    //             {value:"UART_COM", label:"UART_COM -", hasValue:false},
+    //             {value:"UART_1", label:"UART_1 -", hasValue:false},
+    //             {value:"UART_2", label:"UART_2 -", hasValue:false},
+    //             {value:"UART_3", label:"UART_3 -", hasValue:false},
+    //             {value:"UART_4", label:"UART_4 -", hasValue:false},
+    //             {value:"I2C", label:"I2C -", hasValue:false},
+    //             {value:"SPI", label:"SPI -", hasValue:false},
+    //         ])
+    //     }
+    // });
 }

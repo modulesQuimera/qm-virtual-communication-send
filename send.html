@@ -1,25 +1,37 @@
 <script type="text/javascript">
     RED.nodes.registerType('send',{
         category: 'virtual communication',
-        color: '#FFFF00',
+        color: '#0080FF',
         defaults: {
             name:{ value: "" },
             message_send:{ value:"" },
-            mapeamento:{ value:"", type: "mapeamento" },
+            mapeamento:{ value:"", type: "communication-mapping" },
             port_send:{ value:"" },
         },
         inputs:1,
         outputs:1,
-        icon: "Send.svg",
-        label: function() { return this.name || "Send" },
+        icon: "Module_CMD.svg",
+        label: function() { return this.name? "Send - " + this.name: "Send" },
         paletteLabel: "Send",
         oneditprepare: function() {
             var ports = []
             var self = this
+            var config_mapeamento = RED.nodes.node(this.mapeamento)
+            // console.log(config_mapeamento)
 
-            $.getJSON('getMapeamento',function(data) {
-                ports = data  
-                var portType = "custom";
+            if(config_mapeamento){
+                ports = [
+                    {value:config_mapeamento.valuePort1, label:"RS232_DB9 -" + config_mapeamento.labelPort1, hasValue:false},
+                    {value:config_mapeamento.valuePort2, label:"RS232_RJ11 -" + config_mapeamento.labelPort2, hasValue:false},
+                    {value:config_mapeamento.valuePort3, label:"RS485 -" + config_mapeamento.labelPort3, hasValue:false},
+                    {value:config_mapeamento.valuePort4, label:"UART_COM -" + config_mapeamento.labelPort4, hasValue:false},
+                    {value:config_mapeamento.valuePort5, label:"UART_1 -" + config_mapeamento.labelPort5, hasValue:false},
+                    {value:config_mapeamento.valuePort6, label:"UART_2 -" + config_mapeamento.labelPort6, hasValue:false},
+                    {value:config_mapeamento.valuePort7, label:"UART_3 -" + config_mapeamento.labelPort7, hasValue:false},
+                    {value:config_mapeamento.valuePort8, label:"UART_4 -" + config_mapeamento.labelPort8, hasValue:false},
+                    {value:config_mapeamento.valuePort9, label:"I2C -" + config_mapeamento.labelPort9, hasValue:false},
+                    {value:config_mapeamento.valuePort10, label:"SPI -" + config_mapeamento.labelPort10, hasValue:false},
+                ];
                 for (var i in ports) {
                     if (self.port_send == ports[i].value) {
                         portType = self.port_send;
@@ -29,8 +41,30 @@
                     default: self.port_send,
                     types:ports
                 });
-            })
-            $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
+            }
+            else{
+                ports = [
+                    {value:"RS232_1", label:"RS232_DB9 -", hasValue:false},
+                    {value:"RS232_2", label:"RS232_RJ11 -", hasValue:false},
+                    {value:"RS485", label:"RS485 -", hasValue:false},
+                    {value:"UART_COM", label:"UART_COM -", hasValue:false},
+                    {value:"UART_1", label:"UART_1 -", hasValue:false},
+                    {value:"UART_2", label:"UART_2 -", hasValue:false},
+                    {value:"UART_3", label:"UART_3 -", hasValue:false},
+                    {value:"UART_4", label:"UART_4 -", hasValue:false},
+                    {value:"I2C", label:"I2C -", hasValue:false},
+                    {value:"SPI", label:"SPI -", hasValue:false},
+                ];
+                for (var i in ports) {
+                    if (self.port_send == ports[i].value) {
+                        portType = self.port_send;
+                    }
+                }
+                $("#node-config-input-port").typedInput({
+                    default: self.port_send,
+                    types:ports
+                });
+            }
         },
         oneditresize: function() {
             if(!$("#red-ui-header-button-deploy").hasClass("disabled")){
@@ -87,7 +121,7 @@
 
     <div class="form-row columm">
         <strong class="descript">
-         Send module is used to send the value.
+            Sends a message to a specific port.
      </strong>
      </div>
     <div class="form-row columm">
@@ -96,10 +130,14 @@
     </div>
     <div class="form-row columm">
         <label for="node-input-port_send"><i class="fa fa-microchip"></i> Port send</label>
-        <input type="text" id="node-config-input-port" style="width:80%">
-        <div style="width:20px; margin-left:365px; margin-top:-34px" selected>
+        <input type="text" id="node-config-input-port" style="width:70%">
+        <!-- <div style="width:20px; margin-left:365px; margin-top:-34px" selected>
             <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
-        </div>
+        </div> -->
+    </div>
+    <div class="form-row">
+        <label for="node-input-mapeamento"><i class="fa fa-map"></i> Mapping</label>
+        <input type="text" id="node-input-mapeamento">
     </div>
     <div class="hr-div-send">
         <hr>
@@ -113,7 +151,7 @@
 </script>
 
 <script type="text/html" data-help-name="send">
-    <p>Working on it...</p>
+    <p>Sends a message to a specific port.</p>
 </script>
 
 
