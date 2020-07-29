@@ -1,6 +1,6 @@
 {
   "name": "qm-virtual-communication-send",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "virtual-communication send module - Node-Red",
   "main": "send.js",
   "scripts": {
