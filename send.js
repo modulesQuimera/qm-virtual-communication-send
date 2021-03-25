@@ -74,7 +74,6 @@ module.exports = function(RED) {
             mapeamentoNode = RED.nodes.getNode(node.mapeamento);
 
             var globalContext = node.context().global;
-            console.log(mapeamentoNode)
             var currentMode = globalContext.get("currentMode");
             var command = {
                 type: "communication_modular_V1_0",
@@ -108,7 +107,6 @@ module.exports = function(RED) {
                 }
             }
             globalContext.set("exportFile", file);
-            console.log(command)
             send(msg)
         });
     }
